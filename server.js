@@ -1,8 +1,12 @@
 // TO run server command:  npm run server
 
 const express = require('express');
+const connetDB = require('./config/db');
 
 const app = express();
+
+//Connect Database
+connetDB();
 
 app.get('/', (req, res) =>
   res.json({ msg: 'Welcome to the ContactKeeper API...' })
