@@ -1,9 +1,8 @@
 // TO run server command:  npm run server
+// TO run server + react at the same time :npm run dev
 
 const express = require('express');
 const connetDB = require('./config/db');
-
-
 
 const app = express();
 
