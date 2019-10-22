@@ -8,8 +8,6 @@ const Contacts = props => {
 
   const { contacts, filtered } = contactContext;
 
-  console.log(filtered);
-
   if (contacts.length === 0) {
     return (
       <h4 className="text-primary my-2" style={{ textAlign: 'center' }}>
