@@ -1,14 +1,20 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import ContactContext from '../../context/contact/ContactContext';
 import ContactItem from './ContactItem';
+import Spinner from '../layout/Spinner';
 
 const Contacts = props => {
   const contactContext = useContext(ContactContext);
 
-  const { contacts, filtered } = contactContext;
+  const { contacts, filtered, getContacts, loading } = contactContext;
 
-  if (contacts.length === 0) {
+  useEffect(() => {
+    getContacts();
+    //eslint-disable-next-line
+  }, []);
+
+  if (contacts.length === 0  || contacts=== null)  {
     return (
       <h4 className="text-primary my-2" style={{ textAlign: 'center' }}>
         There are no contacts to show...
@@ -18,19 +24,31 @@ const Contacts = props => {
 
   return (
     <Fragment>
-      <TransitionGroup>
-        {filtered != null
-          ? filtered.map(contact => (
-              <CSSTransition key={contact._id} timeout={500} classNames="item">
-                <ContactItem contact={contact} />
-              </CSSTransition>
-            ))
-          : contacts.map(contact => (
-              <CSSTransition key={contact._id} timeout={500} classNames="item">
-                <ContactItem contact={contact} />
-              </CSSTransition>
-            ))}
-      </TransitionGroup>
+      {contacts !== null && !loading ? (
+        <TransitionGroup>
+          {filtered != null
+            ? filtered.map(contact => (
+                <CSSTransition
+                  key={contact._id}
+                  timeout={500}
+                  classNames="item"
+                >
+                  <ContactItem contact={contact} />
+                </CSSTransition>
+              ))
+            : contacts.map(contact => (
+                <CSSTransition
+                  key={contact._id}
+                  timeout={500}
+                  classNames="item"
+                >
+                  <ContactItem contact={contact} />
+                </CSSTransition>
+              ))}
+        </TransitionGroup>
+      ) : (
+        <Spinner />
+      )}
     </Fragment>
   );
 };
